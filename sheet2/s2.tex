@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{pdfpages}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[utf8]{inputenc}
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+%\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+%\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+%\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+%\usepackage{booktabs} % Horizontal rules in tables
+%\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+%\usepackage{enumitem} % Customized lists
+%\setlist[itemize]{noitemsep} % Make itemize lists more compact
+%\usepackage{abstract} % Allows abstract customization
+%\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+%\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+\usepackage{esdiff}
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{color}
+%\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{xcolor}
+\geometry{a4paper}
+    \lstset{
+    language=python,
+    tabsize=1,
+    %frame=lines,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=+5pt,
+    framexleftmargin=25pt,
+    xrightmargin = -25pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={str},emphstyle={\color{magenta}}}
+
+
+%\usepackage{fancyhdr} % Headers and footers
+%\pagestyle{fancy} % All pages have headers and footers
+%\fancyhead{} % Blank out the default header
+%\fancyfoot{} % Blank out the default footer
+%\fancyhead[C]{Running title $\bullet$ May 2016 $\bullet$ Vol. XXI, No. 1} % Custom header text
+%\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+
+
+
+\usepackage{titling} % Customizing the title section
+\usepackage{amsmath}
+\usepackage{hyperref} % For hyperlinks in the PDF
+\usepackage{xcolor}
+
+%\makeatletter
+%\def\mathcolor#1#{\@mathcolor{#1}}
+%\def\@mathcolor#1#2#3{%
+%  \protect\leavevmode
+%  \begingroup
+%    \color#1{#2}#3%
+%  \endgroup
+%}
+%\makeatother
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{Exercise 2 - Neural Networks} % Article title
+\author{%
+\textsc{Alexander Bigalke, Arthur Heimbrecht, Robin Rombach}}
+\date{\today} % Leave empty to omit a date
+
+
+
+%----------------------------------------------------------------------------------------
+\clubpenalty=10000
+\widowpenalty=10000 
+\displaywidowpenalty=10000
+
+
+\begin{document}
+\maketitle
+\section{Linear Activation Function}
+In a feed-forward network, the output of each layer $l$ (denoted $Z_l \; \in \; \mathbb{R}^{m_l}$; with $m_l$ some integer specifying the number of features in layer $l$.) is computed iteratively by multiplying the weight matrix $B_l \; \in \; \mathbb{R}^{m_{l}\times m_{l-1}}$ with the output of layer $l-1$ and subsequently applying the activation function $\varphi_l$ to this product: 
+\begin{align}
+\tilde{Z}_l &= B_{l} \cdot Z_{l-1} \label{eq:1}\\
+Z_l &= \varphi_l(\tilde{Z}_l)
+\end{align}
+where the input $Z_0$ is given as 
+$$ Z_0 = \left( \begin{array}{c}1\\\mathbf{X}\end{array} \right) $$
+with $\mathbf{X}$ denoting the input (training) data. \\
+\newline
+Let us assume that the activation function is a linear map, i.e.
+\begin{equation}
+Z_l = \varphi_l(\tilde{Z}_l) = \Phi_l \cdot \tilde{Z}_l
+\label{eq:3} 
+\end{equation} 
+such that $\Phi_l$ is a quadratic matrix with $\Phi_l \in \mathbb{R}^{m_l \times m_l}$. \\
+Combining equations \eqref{eq:1} and \eqref{eq:3} and exploiting associativity of matrix multiplication then yields the following output for layer $l$:
+\begin{equation}
+Z_l = \Phi_l \cdot \tilde{Z}_l = \Phi_l \cdot B_l \cdot Z_{l-1} \equiv \mathcal{B}_l \cdot Z_{l-1}\;.
+\label{eq:4}
+\end{equation}
+Hence, $$\mathbb{R}^{m_l \times m_{l-1}}\ni \mathcal{B}_l = \Phi_l \cdot B_l $$
+Expanding \eqref{eq:4} gives:
+\begin{align}
+Z_l = \underbrace{ \mathcal{B}_l \cdot \mathcal{B}_{l-1} \cdot \mathcal{B}_{l-2} \cdot \dots \cdot \mathcal{B}_0}_{\equiv \mathbf{B}_l^0 \: \in \: \mathbb{R}^{m_l \times m_0}} \cdot Z_0 
+\label{eq:5}
+\end{align}
+Thus, in the case of a linear activation function and by contracting the product $\mathcal{B}_l \cdot \mathcal{B}_{l-1} \cdot \mathcal{B}_{l-2} \cdot \dots \cdot \mathcal{B}_0$, the whole procedure of mapping the input layer 0 to layer $l$ via several intermediate layers $l-i$ ($i \; \in \; [0, l]$) reduces to mapping layer 0 directly to layer $l$ by
+\begin{equation}
+Z_l = \mathbf{B}_l^0 \cdot Z_0
+\end{equation}
+with $\mathbf{B}_l^0 \: \in \: \mathbb{R}^{m_l \times m_0}$.
+\end{document}
