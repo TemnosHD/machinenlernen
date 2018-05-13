@@ -4,11 +4,11 @@ from sklearn import datasets
 ####################################
 
 class ReLULayer(object):
-    def forward(self, input):
+    def forward(self, input_):
         # remember the input for later backpropagation
-        self.input = input
+        self.input = input_
         # return the ReLU of the input
-        relu = ... # your code here
+        relu = np.max(0, self.input)
         return relu
 
     def backward(self, upstream_gradient):
@@ -25,11 +25,11 @@ class OutputLayer(object):
     def __init__(self, n_classes):
         self.n_classes = n_classes
 
-    def forward(self, input):
+    def forward(self, input_):
         # remember the input for later backpropagation
-        self.input = input
+        self.input = input_
         # return the softmax of the input
-        softmax = ... # your code here
+        softmax = np.exp(self.input)/np.sum(np.exp(self.input))
         return softmax
 
     def backward(self, predicted_posteriors, true_labels):
@@ -49,15 +49,16 @@ class LinearLayer(object):
         self.n_inputs  = n_inputs
         self.n_outputs = n_outputs
         # randomly initialize weights and intercepts
-        self.B = np.random.normal(...) # your code here
-        self.b = np.random.normal(...) # your code here
-
-    def forward(self, input):
+        ## initialize by var(w_i) = 2/n_i for ReLU. n_i describes the number of nodes in layer i.
+        self.B = np.random.normal(loc = 0, scale = 2./n_inputs, size = (n_outputs, n_inputs)) # your code here
+        self.b = np.random.normal(loc = 0, scale = 2./n_inputs, size = (n_outputs, )) # your code here
+        
+    def forward(self, input_):
         # remember the input for later backpropagation
-        self.input = input
+        self.input = input_
         # compute the scalar product of input and weights
         # (these are the preactivations for the subsequent non-linear layer)
-        preactivations = ... # your code here
+        preactivations = np.matmul(self.B, self.input) + self.b ##B*x + b? # your code here
         return preactivations
 
     def backward(self, upstream_gradient):
@@ -175,9 +176,13 @@ if __name__=="__main__":
 
     # test
     predicted_posteriors = network.forward(X_test)
-    # determine class predictions from posteriors by winner-takes-all rule
-    predicted_classes = ... # your code here
+    
+    ##
+    predicted_classes = np.zeros_like(predicted_posteriors)
+    predicted_classes[np.arange(len(predicted_classes)), np.argmax(predicted_posteriors, axis = 1)] = 1
+    ##something along: 'make all but max value in predicted_posteriors 0, max to 1'
     # compute and output the error rate of predicted_classes
-    error_rate = ... # your code here
+    ## Note: the sum has to go over all elements of the matrix product below.
+    error_rate = np.sum(predicted_classes * Y_test) / n_classes
     print("error rate:", error_rate)
 
