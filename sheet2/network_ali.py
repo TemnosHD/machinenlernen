@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn import datasets
 
 ####################################
@@ -147,6 +148,15 @@ class MLP(object):
                 self.update(x_batch, y_batch, learning_rate)
 
 ##################################
+def visualize_data(X, Y, title = None):
+    """
+    expects values in X to be in [-1, 1]
+    """
+    plt.figure(figsize = (8,8))
+    plt.scatter(X[:,0], X[:,1], c = Y)
+    if title:
+        plt.title(title)
+
 
 if __name__=="__main__":
 
@@ -183,5 +193,10 @@ if __name__=="__main__":
     predicted_classes = np.argmax(predicted_posteriors, axis=1) # your code here
     # compute and output the error rate of predicted_classes
     error_rate = np.sum(predicted_classes != Y_test) / len(Y_test) # your code here
+            
+    visualize_data(X_train, Y_train, title = 'Training Set')
+    visualize_data(X_test, Y_test, title = 'Test Set') 
+    visualize_data(X_test, predicted_classes, title = 'Prediction')
+    
     print("error rate:", error_rate)
 
