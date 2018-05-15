@@ -104,6 +104,10 @@
 
 \begin{document}
 \maketitle
+\section{Classification Capacity}
+- see attached handwritten notes beginning next page - 
+\includepdf[pages=-]{Sheet2_ex1a.pdf}
+%\includegraphics{}
 \section{Linear Activation Function}
 In a feed-forward network, the output of each layer $l$ (denoted $Z_l \; \in \; \mathbb{R}^{m_l}$; with $m_l$ some integer specifying the number of features in layer $l$.) is computed iteratively by multiplying the weight matrix $B_l \; \in \; \mathbb{R}^{m_{l}\times m_{l-1}}$ with the output of layer $l-1$ and subsequently applying the activation function $\varphi_l$ to this product: 
 \begin{align}
@@ -128,12 +132,142 @@ Z_l = \Phi_l \cdot \tilde{Z}_l = \Phi_l \cdot B_l \cdot Z_{l-1} \equiv \mathcal{
 Hence, $$\mathbb{R}^{m_l \times m_{l-1}}\ni \mathcal{B}_l = \Phi_l \cdot B_l $$
 Expanding \eqref{eq:4} gives:
 \begin{align}
-Z_l = \underbrace{ \mathcal{B}_l \cdot \mathcal{B}_{l-1} \cdot \mathcal{B}_{l-2} \cdot \dots \cdot \mathcal{B}_0}_{\equiv \mathbf{B}_l^0 \: \in \: \mathbb{R}^{m_l \times m_0}} \cdot Z_0 
+Z_l = \underbrace{ \mathcal{B}_l \cdot \mathcal{B}_{l-1} \cdot \mathcal{B}_{l-2} \cdot \dots \cdot \mathcal{B}_1}_{\equiv \mathbf{B}_l^0 \: \in \: \mathbb{R}^{m_l \times m_0}} \cdot Z_0 
 \label{eq:5}
 \end{align}
-Thus, in the case of a linear activation function and by contracting the product $\mathcal{B}_l \cdot \mathcal{B}_{l-1} \cdot \mathcal{B}_{l-2} \cdot \dots \cdot \mathcal{B}_0$, the whole procedure of mapping the input layer 0 to layer $l$ via several intermediate layers $l-i$ ($i \; \in \; [0, l]$) reduces to mapping layer 0 directly to layer $l$ by
+Thus, in the case of a linear activation function and by contracting the product $\mathcal{B}_l \cdot \mathcal{B}_{l-1} \cdot \mathcal{B}_{l-2} \cdot \dots \cdot \mathcal{B}_1$, the whole procedure of mapping the input layer 0 to layer $l$ via several intermediate layers $l-i$ ($i \; \in \; [0, l]$) reduces to mapping layer 0 directly to layer $l$ by
 \begin{equation}
 Z_l = \mathbf{B}_l^0 \cdot Z_0
 \end{equation}
 with $\mathbf{B}_l^0 \: \in \: \mathbb{R}^{m_l \times m_0}$.
+\newpage
+\enlargethispage{5\baselineskip}
+\section{Application}
+The completed code can be found in the file \texttt{network.py}. \\ 
+\newline
+We report results for the following cases: \\
+\newline
+i) \texttt{layer\_sizes = [2,2, n\_classes]} \\
+ii) \texttt{layer\_sizes = [3,3, n\_classes]} \\
+iii) \texttt{layer\_sizes = [5,5, n\_classes]} \\
+iv) \texttt{layer\_sizes = [30,30, n\_classes]} \\
+with \texttt{n\_classes = 2}.\\
+\newline
+For the other hyper-parameters, we use: \\
+\texttt{n\_epochs = 500}; 
+\texttt{batch\_size = 200}; 
+\texttt{learning\_rate = 0.0001} \\
+\newline
+The task is to classify a dataset provided by \texttt{sklearn.datasets.make\_moons}. A visualized example-set is provided in Figure \ref{fig:exset}. \\
+We account for the stochastic nature of the model (induced by the stochastic gradient descent used here) by repeating each classification run (for a fixed set of hyper-parameters) $n = 10$ times and subsequently computing mean, median and standard deviation of the resulting error rate(s). 
+\begin{figure}[hbtp]
+\begin{center}
+\includegraphics[scale=0.38]{pics/exampleset.png}
+\caption{An instance of \texttt{sklearn.datasets.make\_moons} with 2 classes.}
+\label{fig:exset}
+\end{center}
+\end{figure}
+\noindent In the following, let $\gamma_t$ denote the error rate on the test set.\\
+\newpage
+\textbf{i):} \texttt{layer\_sizes = [2,2, n\_classes]} \\
+\begin{figure}[htbp]
+\captionsetup[subfigure]{labelformat=empty}
+\centering
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.3]{pics/Prediction_i}
+	\caption{Classification outcome on test set}
+	\label{fig:i_a}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.3]{pics/i_ens}
+	\caption{Training set error rate: mean and median with standard deviation; composed out of 10 runs.}
+	\label{fig:i_b}
+	\end{subfigure}
+\caption{Error rate on test set: $\gamma_t = 0.1195$. NN is not able to form sufficient decision boundaries.}
+\label{fig:res_i}
+\end{figure}
+\newline
+\textbf{ii):} \texttt{layer\_sizes = [3,3, n\_classes]} \\
+\begin{figure}[h!]
+\captionsetup[subfigure]{labelformat=empty}
+\centering
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.3]{pics/Prediction_ii}
+	\caption{Classification outcome on test set}
+	\label{fig:ii_a}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.3]{pics/ii_ens}
+	\caption{Training set error rate: mean and median with standard deviation; composed out of 10 runs.}
+	\label{fig:ii_b}
+	\end{subfigure}
+\caption{Error rate on test set: $\gamma_t = 0.104$. NN is still not able to form sufficient decision boundaries.}
+\label{fig:res_ii}
+\end{figure}
+\newpage
+\enlargethispage{10\baselineskip}
+\noindent \textbf{iii):} \texttt{layer\_sizes = [5,5, n\_classes]} \\
+\begin{figure}[htbp]
+\captionsetup[subfigure]{labelformat=empty}
+\centering
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.30]{pics/Prediction_iii}
+	\caption{Classification outcome on test set}
+	\label{fig:iii_a}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.30]{pics/iii_ens}
+	\caption{Training set error rate: mean and median with standard deviation; composed out of 10 runs.}
+	\label{fig:iii_b}
+	\end{subfigure}
+\caption{Error rate on test set: $\gamma_t = 0.0985$. NN begins to form sufficient decision boundaries.}
+\label{fig:res_iii}
+\end{figure}
+\newline
+\noindent \textbf{iv):} \texttt{layer\_sizes = [30,30, n\_classes]} \\
+\begin{figure}[h!]
+\captionsetup[subfigure]{labelformat=empty}
+\centering
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.30]{pics/Prediction_4}
+	\caption{Classification outcome on test set}
+	\label{fig:iv_a}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.30]{pics/iv_ens}
+	\caption{Training set error rate: mean and median with standard deviation; composed out of 10 runs.}
+	\label{fig:iv_b}
+	\end{subfigure}
+\caption{Error rate on test set: $\gamma_t = 0.0$. NN is able to classify the system flawlessly.}
+\label{fig:res_iv}
+\end{figure}
+\newpage
+\noindent Additionally, it is worth mentioning that the NN is also able to classify other datasets, such as \texttt{sklearn.datasets.make\_circles} (see Figure \ref{fig:circ}) flawlessly.
+\begin{figure}[h!]
+\captionsetup[subfigure]{labelformat=empty}
+\centering
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.40]{pics/Prediction}
+	\caption{Classification outcome on test set}
+	\label{fig:v_a}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+	\centering
+	\includegraphics[scale=0.40]{pics/circle_ens_iii}
+	\caption{Training set error rate: mean and median with standard deviation; composed out of 10 runs.}
+	\label{fig:v_b}
+	\end{subfigure}
+\caption{\textsl{Circles} dataset. Error rate on test set: $\gamma_t = 0.0$. NN is able to classify the system flawlessly.}
+\label{fig:circ}
+\end{figure}
+
 \end{document}

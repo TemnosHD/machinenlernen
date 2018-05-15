@@ -215,7 +215,8 @@ def plot_error_rates(x1, x2, title = None, save = False, label1 = 'training erro
 
 def run_ensemble(N, n_features, n_classes, layer_sizes, n_epochs, batch_size, lr, n_ensemble):
     """
-    repeat a classification task n_ensemble times.
+    repeat a classification task n times, with n = n_ensemble.
+    returns the error-rates for each epoch for each run.
     """
     train_ens = np.zeros((n_ensemble, n_epochs))
     for k in range(n_ensemble):
@@ -232,7 +233,10 @@ def run_ensemble(N, n_features, n_classes, layer_sizes, n_epochs, batch_size, lr
 
 def plot_ensemble(ensemble, n_std, save = False, title = None):
     """
-    plot mean and standard deviation of a given set of error rates.
+    plot mean and n_std * standard deviation of a given set of error rates.
+    parameters: 
+        ensemble: ndarray, holding the error-rates for each epoch for each run.
+        n_std:    int, specifying how many standard deviations will be visualized
     """
     # define some custom colors  #orange, blue, green, red
     plt.figure(figsize = (9,7))
@@ -266,8 +270,8 @@ if __name__=="__main__":
     X_test,  Y_test  = datasets.make_moons(N, noise=0.05)
     
     # alternatively, use
-    #X_train, Y_train = datasets.make_cricles(N, factor=0.5, noise=0.05)
-    #X_test,  Y_test  = datasets.make_circles(N, factor=0.5, noise=0.05)
+    X_train, Y_train = datasets.make_circles(N, factor=0.5, noise=0.05)
+    X_test,  Y_test  = datasets.make_circles(N, factor=0.5, noise=0.05)
     
     n_features = 2
     n_classes  = 2
@@ -280,9 +284,8 @@ if __name__=="__main__":
 
     # set hyperparameters (play with these!)
     # 10,10, 1000,200,0.0001 work well
-    # also 5, 5, 200, 200, 2e-4
-    layer_sizes = [10,10, n_classes]
-    n_epochs = 400
+    layer_sizes = [5,5, n_classes]
+    n_epochs = 500
     batch_size = 200
     learning_rate = 0.0001
 
@@ -300,13 +303,13 @@ if __name__=="__main__":
     error_rate = np.sum(predicted_classes != Y_test) / len(Y_test) 
             
     # visualize data
-    visualize_data(X_train, Y_train, title = 'Training Set')
-    visualize_data(X_test, Y_test, title = 'Test Set') 
+    #visualize_data(X_train, Y_train, title = 'A moon dataset', save = True)
+    #visualize_data(X_test, Y_test, title = 'Test Set') 
     visualize_data(X_test, predicted_classes, title = 'Prediction', save = True)
     # plot train/val error
     #plot_error_rates(train_errors, test_errors)
     ens = run_ensemble(N, n_features, n_classes, layer_sizes, n_epochs, batch_size, learning_rate, 10)
-    plot_ensemble(ens, 3)
+    plot_ensemble(ens, 1, save = True, title = 'circle_ens_iii')
     
-    print("error rate for test set:", error_rate)
+    print("error rate on test set:", error_rate)
 
