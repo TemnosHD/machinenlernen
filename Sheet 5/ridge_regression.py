@@ -92,7 +92,8 @@ class KernelRidgeRegressor(object):
         """
         assert len(pred_x.shape) == 1
         assert pred_x.shape[0] == self.dim
-        indices = numpy.asarray(self.tree.query_ball_point(pred_x, self.max_distance))
+        #indices = numpy.asarray(self.tree.query_ball_point(pred_x, self.max_distance))
+        indices = numpy.asarray(self.tree.query_ball_point(pred_x, self.max_distance), dtype=np.dtype("i8"))
         dist = numpy.sum((self.train_x[indices]-pred_x)**2, axis=1)
         kappa = numpy.exp(self.scale*dist)
         pred_y = numpy.dot(kappa, self.alpha[indices])
