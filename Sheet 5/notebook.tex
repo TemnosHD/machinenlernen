@@ -1,0 +1,712 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{gp}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{from} \PY{n+nn}{mpl\PYZus{}toolkits}\PY{n+nn}{.}\PY{n+nn}{mplot3d} \PY{k}{import} \PY{n}{Axes3D}
+        \PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k}{import} \PY{n}{cm}
+        \PY{k+kn}{import} \PY{n+nn}{sobol}
+        \PY{k+kn}{import} \PY{n+nn}{GPy}
+        \PY{k+kn}{import} \PY{n+nn}{scipy}
+        \PY{k+kn}{import} \PY{n+nn}{optunity}
+\end{Verbatim}
+
+
+    \hypertarget{gp-optimization-of-a-toy-problem}{%
+\section{1 GP Optimization of a Toy
+Problem}\label{gp-optimization-of-a-toy-problem}}
+
+    Implementation and visualization of \(f(x,y)\).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k}{def} \PY{n+nf}{f}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{square}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{x} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{square}\PY{p}{(}\PY{n}{y}\PY{p}{)} \PY{o}{+} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{x} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{p}{)}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{y} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)} \PY{o}{+} \PY{l+m+mf}{2.5}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k}{def} \PY{n+nf}{visualization}\PY{p}{(}\PY{n}{datapoints}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+            \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mf}{0.05}\PY{p}{)}
+            \PY{n}{X}\PY{p}{,} \PY{n}{Y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{meshgrid}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{X}\PY{p}{)}
+            \PY{n}{Z} \PY{o}{=} \PY{n}{f}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+        
+            \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+            \PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+            \PY{n}{plot} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{contour}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{Y}\PY{p}{,}\PY{n}{Z}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inferno}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{plot}\PY{p}{)}
+            
+            \PY{k}{if} \PY{n}{datapoints} \PY{o+ow}{is} \PY{o+ow}{not} \PY{k+kc}{None}\PY{p}{:}
+                \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{datapoints}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{datapoints}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{visualization}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Creating initial 30 training points using sobol and computing the
+corresponding Z-values.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{number\PYZus{}of\PYZus{}samples} \PY{o}{=} \PY{l+m+mi}{30}
+        \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{[}\PY{n}{number\PYZus{}of\PYZus{}samples}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{}training vector to be filled}
+        \PY{n}{parameterUpperLimits} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+        \PY{n}{parameterLowerLimits} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{number\PYZus{}of\PYZus{}samples}\PY{p}{)}\PY{p}{:}
+            \PY{n}{X}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{sobol}\PY{o}{.}\PY{n}{i4\PYZus{}sobol}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{i}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{p}{(}\PY{n}{parameterUpperLimits} \PY{o}{\PYZhy{}} \PY{n}{parameterLowerLimits}\PY{p}{)} \PY{o}{+} \PY{n}{parameterLowerLimits}
+            
+        \PY{n}{Z} \PY{o}{=} \PY{n}{f}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{k+kc}{None}\PY{p}{]}
+\end{Verbatim}
+
+
+    Implementation of both utility functions (``Maximal Improvement'' and
+``Maximal Variance''). Which one create can be determined by the
+argument ``ut\_fct''.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k}{def} \PY{n+nf}{create\PYZus{}utility\PYZus{}fct}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{E\PYZus{}best}\PY{p}{,} \PY{n}{ut\PYZus{}fct}\PY{p}{)}\PY{p}{:}
+            
+            \PY{k}{def} \PY{n+nf}{u\PYZus{}EI}\PY{p}{(}\PY{n}{q\PYZus{}x}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} expected improvement}
+                \PY{c+c1}{\PYZsh{} q has to be a numpy array with shape (1,2)}
+                \PY{n}{q} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{q\PYZus{}x}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+                \PY{n}{E\PYZus{}q}\PY{p}{,} \PY{n}{Var\PYZus{}q} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{q}\PY{p}{)}
+                \PY{n}{gamma\PYZus{}q} \PY{o}{=} \PY{p}{(}\PY{n}{E\PYZus{}best} \PY{o}{\PYZhy{}} \PY{n}{E\PYZus{}q}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{Var\PYZus{}q}\PY{p}{)}
+                \PY{n}{u} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{Var\PYZus{}q}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{gamma\PYZus{}q} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{n}{gamma\PYZus{}q}\PY{p}{)} \PY{o}{+} \PY{n}{scipy}\PY{o}{.}\PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{gamma\PYZus{}q}\PY{p}{)}\PY{p}{)}
+        
+                \PY{k}{return} \PY{n}{u}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}
+            
+            \PY{k}{def} \PY{n+nf}{u\PYZus{}MV}\PY{p}{(}\PY{n}{q\PYZus{}x}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} maximal variance}
+                \PY{n}{q} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{q\PYZus{}x}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+                \PY{n}{Var\PYZus{}q} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{q}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+                
+                \PY{k}{return} \PY{n}{Var\PYZus{}q}
+            
+            \PY{k}{if} \PY{n}{ut\PYZus{}fct} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ExpImpr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+                \PY{k}{return} \PY{n}{u\PYZus{}EI}
+            
+            \PY{k}{elif} \PY{n}{ut\PYZus{}fct} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MaxVar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+                \PY{k}{return} \PY{n}{u\PYZus{}MV}
+\end{Verbatim}
+
+
+    Here, we use the optunity module to find the best new point according to
+the chosen utility function.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{k}{def} \PY{n+nf}{update}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Z}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{ut\PYZus{}fct}\PY{p}{)}\PY{p}{:}
+            \PY{n}{E\PYZus{}best} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{Z}\PY{p}{)} \PY{c+c1}{\PYZsh{}E\PYZus{}best is the smallest value from the current training set}
+            \PY{n}{u} \PY{o}{=} \PY{n}{create\PYZus{}utility\PYZus{}fct}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{E\PYZus{}best}\PY{p}{,} \PY{n}{ut\PYZus{}fct}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} find point q which maximizes the expected improvement using optunity}
+            \PY{n}{q\PYZus{}max} \PY{o}{=} \PY{n}{optunity}\PY{o}{.}\PY{n}{maximize}\PY{p}{(}\PY{n}{u}\PY{p}{,} \PY{n}{num\PYZus{}evals}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{q\PYZus{}x}\PY{o}{=}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{o}{=}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+            \PY{n}{q\PYZus{}x} \PY{o}{=} \PY{n}{q\PYZus{}max}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{q\PYZus{}x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{q\PYZus{}y} \PY{o}{=} \PY{n}{q\PYZus{}max}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{q\PYZus{}y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{z} \PY{o}{=} \PY{n}{f}\PY{p}{(}\PY{n}{q\PYZus{}x}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{p}{)} \PY{c+c1}{\PYZsh{} compute corresponding function value}
+            \PY{c+c1}{\PYZsh{} add data point to training set}
+            \PY{n}{X\PYZus{}new} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{q\PYZus{}x}\PY{p}{,} \PY{n}{q\PYZus{}y}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{Z\PYZus{}new} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{Z}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{z}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+            
+            \PY{c+c1}{\PYZsh{} train model with new training set}
+            \PY{n}{kernel} \PY{o}{=} \PY{n}{GPy}\PY{o}{.}\PY{n}{kern}\PY{o}{.}\PY{n}{RBF}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{GPy}\PY{o}{.}\PY{n}{kern}\PY{o}{.}\PY{n}{White}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{model} \PY{o}{=} \PY{n}{GPy}\PY{o}{.}\PY{n}{models}\PY{o}{.}\PY{n}{GPRegression}\PY{p}{(}\PY{n}{X\PYZus{}new} \PY{p}{,}\PY{n}{Z\PYZus{}new}\PY{p}{,} \PY{n}{kernel}\PY{p}{)}
+            \PY{n}{model}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}\PY{p}{)}
+            
+            \PY{k}{return} \PY{n}{X\PYZus{}new}\PY{p}{,} \PY{n}{Z\PYZus{}new}\PY{p}{,} \PY{n}{model}
+\end{Verbatim}
+
+
+    Now, we iterate over 30 epochs only using the ``Maximal Improvement''
+utility function.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} create copies of training set and model since they will be modified in the following,}
+        \PY{c+c1}{\PYZsh{} but the same base values will be needed later}
+        \PY{n}{X\PYZus{}ExpImp} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        \PY{n}{Z\PYZus{}ExpImp} \PY{o}{=} \PY{n}{Z}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{kernel} \PY{o}{=} \PY{n}{GPy}\PY{o}{.}\PY{n}{kern}\PY{o}{.}\PY{n}{RBF}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{GPy}\PY{o}{.}\PY{n}{kern}\PY{o}{.}\PY{n}{White}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{m\PYZus{}ExpImp} \PY{o}{=} \PY{n}{GPy}\PY{o}{.}\PY{n}{models}\PY{o}{.}\PY{n}{GPRegression}\PY{p}{(}\PY{n}{X\PYZus{}ExpImp}\PY{p}{,} \PY{n}{Z\PYZus{}ExpImp}\PY{p}{,} \PY{n}{kernel}\PY{p}{)}
+         \PY{n}{m\PYZus{}ExpImp}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}10}]:} <paramz.optimization.optimization.opt\_lbfgsb at 0x10a8a5518>
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{)}\PY{p}{:}
+             \PY{n}{X\PYZus{}ExpImp}\PY{p}{,} \PY{n}{Z\PYZus{}ExpImp}\PY{p}{,} \PY{n}{m\PYZus{}ExpImp} \PY{o}{=} \PY{n}{update}\PY{p}{(}\PY{n}{X\PYZus{}ExpImp}\PY{p}{,} \PY{n}{Z\PYZus{}ExpImp}\PY{p}{,} \PY{n}{m\PYZus{}ExpImp}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ExpImpr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} print true function value and prediction by GP of the newest training point in each iteration}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Iteration: }\PY{l+s+si}{\PYZpc{}2d}\PY{l+s+s2}{, f(x,y) = }\PY{l+s+si}{\PYZpc{}3.2f}\PY{l+s+s2}{, GP\PYZus{}pred = }\PY{l+s+si}{\PYZpc{}3.2f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{Z\PYZus{}ExpImp}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{m\PYZus{}ExpImp}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}ExpImp}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Iteration:  0, f(x,y) = 1.04, GP\_pred = 1.89
+Iteration:  1, f(x,y) = 1.19, GP\_pred = 1.80
+Iteration:  2, f(x,y) = 0.34, GP\_pred = 1.61
+Iteration:  3, f(x,y) = 0.08, GP\_pred = 1.47
+Iteration:  4, f(x,y) = 0.33, GP\_pred = 1.33
+Iteration:  5, f(x,y) = 0.07, GP\_pred = 1.23
+Iteration:  6, f(x,y) = 0.90, GP\_pred = 1.20
+Iteration:  7, f(x,y) = 1.40, GP\_pred = 1.26
+Iteration:  8, f(x,y) = 1.74, GP\_pred = 1.26
+Iteration:  9, f(x,y) = 0.74, GP\_pred = 1.22
+Iteration: 10, f(x,y) = 1.11, GP\_pred = 1.20
+Iteration: 11, f(x,y) = 0.03, GP\_pred = 1.15
+Iteration: 12, f(x,y) = 0.12, GP\_pred = 1.10
+Iteration: 13, f(x,y) = 0.55, GP\_pred = 1.05
+Iteration: 14, f(x,y) = 0.55, GP\_pred = 0.55
+Iteration: 15, f(x,y) = 4.36, GP\_pred = 3.62
+Iteration: 16, f(x,y) = 1.74, GP\_pred = 1.11
+Iteration: 17, f(x,y) = 0.55, GP\_pred = 1.06
+Iteration: 18, f(x,y) = 0.46, GP\_pred = 1.03
+Iteration: 19, f(x,y) = 0.18, GP\_pred = 0.99
+Iteration: 20, f(x,y) = 1.08, GP\_pred = 1.01
+Iteration: 21, f(x,y) = 0.16, GP\_pred = 0.97
+Iteration: 22, f(x,y) = 0.16, GP\_pred = 0.16
+Iteration: 23, f(x,y) = 5.48, GP\_pred = 4.37
+Iteration: 24, f(x,y) = 1.27, GP\_pred = 1.01
+Iteration: 25, f(x,y) = 0.52, GP\_pred = 0.96
+Iteration: 26, f(x,y) = 0.78, GP\_pred = 0.97
+Iteration: 27, f(x,y) = 1.25, GP\_pred = 0.98
+Iteration: 28, f(x,y) = 0.96, GP\_pred = 0.97
+Iteration: 29, f(x,y) = 0.42, GP\_pred = 0.94
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{visualization}\PY{p}{(}\PY{n}{X\PYZus{}ExpImp}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The global optimum is represented by the red dot whereas points in the
+final training set are represented by green crosses. We observe a strong
+accumulation of training points close to the global optimum. However
+these accumulated points seem no to be centered around the optimum but
+are slightly shifted to the lower left. Further, we see that many points
+are located at the same function value/same level whereas other levels
+are not exploited at all.
+
+    Now, we repeat the same procedure for alternating utility functions:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{X\PYZus{}Alt} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+         \PY{n}{Z\PYZus{}Alt} \PY{o}{=} \PY{n}{Z}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{kernel} \PY{o}{=} \PY{n}{GPy}\PY{o}{.}\PY{n}{kern}\PY{o}{.}\PY{n}{RBF}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{GPy}\PY{o}{.}\PY{n}{kern}\PY{o}{.}\PY{n}{White}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{m\PYZus{}Alt} \PY{o}{=} \PY{n}{GPy}\PY{o}{.}\PY{n}{models}\PY{o}{.}\PY{n}{GPRegression}\PY{p}{(}\PY{n}{X\PYZus{}Alt}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{,} \PY{n}{kernel}\PY{p}{)}
+         \PY{n}{m\PYZus{}Alt}\PY{o}{.}\PY{n}{optimize}\PY{p}{(}\PY{p}{)}
+         \PY{n}{basic\PYZus{}model} \PY{o}{=} \PY{n}{m\PYZus{}Alt}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} model that will not further be optimized and is needed for later visualization}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ /usr/local/lib/python3.6/site-packages/paramz/transformations.py:111: RuntimeWarning:overflow encountered in expm1
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{:}
+             \PY{n}{X\PYZus{}Alt}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{,} \PY{n}{m\PYZus{}Alt} \PY{o}{=} \PY{n}{update}\PY{p}{(}\PY{n}{X\PYZus{}Alt}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{,} \PY{n}{m\PYZus{}Alt}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ExpImpr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} print true function value and prediction by GP of the newest training point in each iteration}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Iteration: }\PY{l+s+si}{\PYZpc{}2d}\PY{l+s+s2}{, f(x,y) = }\PY{l+s+si}{\PYZpc{}3.2f}\PY{l+s+s2}{, GP\PYZus{}pred = }\PY{l+s+si}{\PYZpc{}3.2f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{m\PYZus{}Alt}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}Alt}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+             
+             \PY{n}{X\PYZus{}Alt}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{,} \PY{n}{m\PYZus{}Alt} \PY{o}{=} \PY{n}{update}\PY{p}{(}\PY{n}{X\PYZus{}Alt}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{,} \PY{n}{m\PYZus{}Alt}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MaxVar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} print true function value and prediction by GP of the newest training point in each iteration}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Iteration: }\PY{l+s+si}{\PYZpc{}2d}\PY{l+s+s2}{, f(x,y) = }\PY{l+s+si}{\PYZpc{}3.2f}\PY{l+s+s2}{, GP\PYZus{}pred = }\PY{l+s+si}{\PYZpc{}3.2f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{Z\PYZus{}Alt}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{m\PYZus{}Alt}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}Alt}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{[}\PY{k+kc}{None}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Iteration:  0, f(x,y) = 1.47, GP\_pred = 1.96
+Iteration:  1, f(x,y) = 45.57, GP\_pred = 44.68
+Iteration:  2, f(x,y) = 0.88, GP\_pred = 1.79
+Iteration:  3, f(x,y) = 75.08, GP\_pred = 73.13
+Iteration:  4, f(x,y) = 1.01, GP\_pred = 1.60
+Iteration:  5, f(x,y) = 56.91, GP\_pred = 57.07
+Iteration:  6, f(x,y) = 0.66, GP\_pred = 1.51
+Iteration:  7, f(x,y) = 79.59, GP\_pred = 79.77
+Iteration:  8, f(x,y) = 1.06, GP\_pred = 1.51
+Iteration:  9, f(x,y) = 52.55, GP\_pred = 51.65
+Iteration: 10, f(x,y) = 0.16, GP\_pred = 1.36
+Iteration: 11, f(x,y) = 34.00, GP\_pred = 33.26
+Iteration: 12, f(x,y) = 0.10, GP\_pred = 1.27
+Iteration: 13, f(x,y) = 33.14, GP\_pred = 32.47
+Iteration: 14, f(x,y) = 0.23, GP\_pred = 1.22
+Iteration: 15, f(x,y) = 48.60, GP\_pred = 47.83
+Iteration: 16, f(x,y) = 0.23, GP\_pred = 1.15
+Iteration: 17, f(x,y) = 49.05, GP\_pred = 49.33
+Iteration: 18, f(x,y) = 0.37, GP\_pred = 1.11
+Iteration: 19, f(x,y) = 40.43, GP\_pred = 38.61
+Iteration: 20, f(x,y) = 0.65, GP\_pred = 1.09
+Iteration: 21, f(x,y) = 50.75, GP\_pred = 50.43
+Iteration: 22, f(x,y) = 0.32, GP\_pred = 1.03
+Iteration: 23, f(x,y) = 57.87, GP\_pred = 57.20
+Iteration: 24, f(x,y) = 0.09, GP\_pred = 0.96
+Iteration: 25, f(x,y) = 82.32, GP\_pred = 81.96
+Iteration: 26, f(x,y) = 0.89, GP\_pred = 1.04
+Iteration: 27, f(x,y) = 46.40, GP\_pred = 45.66
+Iteration: 28, f(x,y) = 1.04, GP\_pred = 1.01
+Iteration: 29, f(x,y) = 47.17, GP\_pred = 47.51
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{visualization}\PY{p}{(}\PY{n}{X\PYZus{}Alt}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    In this case, there seem to be less points around the global obtimum
+than previously, but they are distributed more symmetrically. Further we
+see, that the points seem to be better distributed as more different
+levels of the function are explored (e.g.~also at the borders).
+
+    As a baseline, we create 60 uniformly distributed points and compare
+their minimum to the ones found above:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{points} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{low}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,} \PY{n}{high}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{60}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+         \PY{n}{minimum} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{f}\PY{p}{(}\PY{n}{points}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{points}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{random points: }\PY{l+s+si}{\PYZpc{}1.3f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{n}{minimum}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ExpImpr: }\PY{l+s+si}{\PYZpc{}1.3f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{Z\PYZus{}ExpImp}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Alternating: }\PY{l+s+si}{\PYZpc{}1.3f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{Z\PYZus{}Alt}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+random points: 1.077
+ExpImpr: 0.029
+Alternating: 0.087
+
+    \end{Verbatim}
+
+    As one can see, the alternating utility functions provide best result
+whereas the minimum obtained using the random points is far away from
+the real global optimum.
+
+    Now, we visualize the GP's approximation after training with 30 and 60
+data points respectively.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{k}{def} \PY{n+nf}{visualize\PYZus{}model}\PY{p}{(}\PY{n}{model}\PY{p}{)}\PY{p}{:}
+             \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mf}{0.05}\PY{p}{)}
+             \PY{n}{X}\PY{p}{,} \PY{n}{Y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{meshgrid}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{X}\PY{p}{)}
+             \PY{n}{input\PYZus{}data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{X}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{Y}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+             
+             \PY{n}{Z} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{input\PYZus{}data}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{240}\PY{p}{,}\PY{l+m+mi}{240}\PY{p}{)}
+             
+             \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}
+             \PY{n}{plot} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{contour}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{Y}\PY{p}{,}\PY{n}{Z}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inferno}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{plot}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{visualize\PYZus{}model}\PY{p}{(}\PY{n}{basic\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{n}{visualize\PYZus{}model}\PY{p}{(}\PY{n}{m\PYZus{}Alt}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{reconstruction-of-a-corrupted-image}{%
+\section{2 Reconstruction of a Corrupted
+Image}\label{reconstruction-of-a-corrupted-image}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{k+kn}{from} \PY{n+nn}{ridge\PYZus{}regression} \PY{k}{import} \PY{o}{*}
+         
+         \PY{n}{kernel\PYZus{}ridge\PYZus{}regression}\PY{p}{(}\PY{n}{tau}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{sigma}\PY{o}{=}\PY{l+m+mf}{4.0}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+training{\ldots}
+building input kernel matrix
+sparsity: 0.91\%
+solving sparse system
+done computing alpha
+done training
+predicting{\ldots}
+done predicting
+Train and predict took 6.01 seconds.
+(338, 250)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{image} \PY{k}{as} \PY{n+nn}{mpimg}
+         \PY{n}{img1} \PY{o}{=} \PY{n}{mpimg}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{res.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{img2} \PY{o}{=} \PY{n}{mpimg}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cc\PYZus{}90.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{img3} \PY{o}{=} \PY{n}{mpimg}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{charlie\PYZhy{}chaplin.jpg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{img1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{img2}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{img3}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The function utilizes \texttt{scipy.sparse.linalg.cg} which is able to
+solve \texttt{Ax\ =\ b} for \texttt{x}. Thus it does not need to invert
+\texttt{A} in order to solve \texttt{x\ =\ b\ A.inv}.
+
+The function also uses \texttt{sparse} matrices for faster computation
+since these are much faster if most elements of the matrix are 0 as in
+this case.
+
+    \hypertarget{bayesian-optimization-of-hyperparameters}{%
+\section{3 Bayesian Optimization of
+Hyperparameters}\label{bayesian-optimization-of-hyperparameters}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{k}{def} \PY{n+nf}{COR}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{n}{B}\PY{p}{)}\PY{p}{:}
+             \PY{n}{A\PYZus{}dash} \PY{o}{=} \PY{n}{A}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+             \PY{n}{B\PYZus{}dash} \PY{o}{=} \PY{n}{B}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+             \PY{n}{num} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{A} \PY{o}{\PYZhy{}} \PY{n}{A\PYZus{}dash}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{n}{B} \PY{o}{\PYZhy{}} \PY{n}{B\PYZus{}dash}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{n}{denom} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{A} \PY{o}{\PYZhy{}} \PY{n}{A\PYZus{}dash}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{B} \PY{o}{\PYZhy{}} \PY{n}{B\PYZus{}dash}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{k}{return} \PY{n}{num}\PY{o}{/}\PY{n}{denom}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{n}{COR}\PY{p}{(}\PY{n}{img1}\PY{p}{,} \PY{n}{img3}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}23}]:} 0.92878205944060455
+\end{Verbatim}
+            
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

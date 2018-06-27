@@ -38,14 +38,14 @@ def compute_alpha(train_x, train_y, tau, sigma, max_distance):
     :param sigma: parameter sigma of the gaussian kernel
     :return: alpha vector
     """
-    print "building input kernel matrix"
+    print ("building input kernel matrix")
     K = gaussian_kernel(train_x, sigma, max_distance)
-    print "sparsity: %.2f%%" % (float(100*K.nnz) / (K.shape[0]*K.shape[1]))
+    print ("sparsity: %.2f%%" % (float(100*K.nnz) / (K.shape[0]*K.shape[1])))
     M = K + tau * scipy.sparse.identity(train_x.shape[0])
     y = scipy.sparse.csc_matrix(train_y[:,None])
-    print "solving sparse system"
+    print ("solving sparse system")
     alpha = scipy.sparse.linalg.cg(M, train_y)
-    print "done computing alpha"
+    print ("done computing alpha")
     return alpha[0]
 
 class KernelRidgeRegressor(object):
@@ -93,7 +93,7 @@ class KernelRidgeRegressor(object):
         assert len(pred_x.shape) == 1
         assert pred_x.shape[0] == self.dim
         #indices = numpy.asarray(self.tree.query_ball_point(pred_x, self.max_distance))
-        indices = numpy.asarray(self.tree.query_ball_point(pred_x, self.max_distance), dtype=np.dtype("i8"))
+        indices = numpy.asarray(self.tree.query_ball_point(pred_x, self.max_distance), dtype=numpy.dtype("i8"))
         dist = numpy.sum((self.train_x[indices]-pred_x)**2, axis=1)
         kappa = numpy.exp(self.scale*dist)
         pred_y = numpy.dot(kappa, self.alpha[indices])
@@ -127,21 +127,21 @@ def kernel_ridge_regression(tau, sigma):
 
     # Train and predict with the given regressor.
     start = time.time()
-    print "training..."
+    print ("training...")
     r = KernelRidgeRegressor(tau, sigma)
     r.train(known_x, known_y)
-    print "done training"
+    print ("done training")
     # pickle.dump(r, open("regressor.p", "wb"))
     # r = pickle.load(open("regressor.p", "rb"))
-    print "predicting..."
+    print ("predicting...")
     pred_y = r.predict(pred_x)
-    print "done predicting"
+    print ("done predicting")
 
     # Write the predicted values back into the image and show the result.
     im[unknown_ind] = pred_y
     stop = time.time()
-    print "Train and predict took %.02f seconds." % (stop-start)
-    print im.shape
+    print ("Train and predict took %.02f seconds." % (stop-start))
+    print (im.shape)
     imsave("res.png", im)
 
 def process_command_line():
