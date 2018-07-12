@@ -1,0 +1,100 @@
+\documentclass{article}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,250mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\addtolength{\headheight}{\baselineskip}
+\usepackage{datetime}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=2.2cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=18em, text centered, rounded corners, minimum height=2.5em]
+\tikzstyle{line} = [draw, -latex']
+
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{stmaryrd}
+
+\def\theauthor{Alexander Bigalke \\ Robin Rombach \\ Arthur Heimbrecht}
+\def\theassignment{exercise 8}
+\def\theduedate{\formatdate{18}{07}{2018}}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\fancyfoot[L]{Class: \textit{Advanced Machine Learning}}
+\fancyfoot[R]{\today}
+\fancyfoot[C]{File: \\ \jobname.pdf}
+
+\fancyhead[L]{Assignment: \textit{\theassignment} \\ Due: \theduedate}
+\fancyhead[R]{Name: \theauthor}
+
+\usepackage{graphicx}
+
+\begin{document}
+
+\section*{Berkeley Admission}
+First we want to complete the data. We need the probabilities $p(F|G), p(A|F,G)$ and $p(G)$.\\
+
+\begin{tabular}{| l | c | c | c | c |}
+  \hline
+  & \multicolumn{2}{| c |}{men} & \multicolumn{2}{| c |}{women} \\
+  field & $p(F|G)$ & $p(A|F,G)$	& $p(F|G)$ & $p(A|F,G)$ \\ 
+  \hline
+  A & 0.62 & 0.32 & 0.82 & 0.06 \\
+  B & 0.63 & 0.22 & 0.68 & 0.01 \\
+  C & 0.37 & 0.13 & 0.34 & 0.32 \\
+  D & 0.33 & 0.16 & 0.35 & 0.20 \\
+  E & 0.28 & 0.07 & 0.24 & 0.21 \\
+  F & 0.06 & 0.10 & 0.07 & 0.19 \\
+  \hline
+  & \multicolumn{2}{| c |}{0.585} & \multicolumn{2}{| c |}{0.415} \\
+  \hline
+\end{tabular}
+\subsection*{Total Causal Effect}
+\begin{enumerate}
+	\item we can straight forward calculate the conditional probability $p_1(A = \text{true} | do(G))$: \\
+	\begin{equation} p_1(A  = \text{true} | do(G)) = p_1(A = \text{true} | G) = \sum_{F} p(F|G) p(A  = \text{true} | F, G) \end{equation}
+
+	\item Now we can calculate
+		\begin{align*}
+		p_1(A = \text{true} | do(G = \text{male})) & =  0.32 \cdot 0.62 + 0.22 \cdot 0.63 + ... = 0.46 \\
+		p_1(A = \text{true} | do(G = \text{female})) & =  0.0.06 \cdot 0.82 + 0.01 \cdot 0.68 + ... = 0.30
+		\end{align*}
+	This indicates that women might be discriminated.
+\end{enumerate}
+\subsection*{Direct Causal Effect}
+\begin{enumerate}
+	\item we can calculate $p_2(A = \text{true} | G)$: \\
+	\begin{align*}
+		p_2(A = \text{true} | G) & = p_1(A = \text{true} | G, \text{cut}(G \rightarrow A)) \\
+					& = \sum_{F} p_1(F|G)  p_1(A = \text{true} | F, G, \text{cut}(G \rightarrow A)) \\
+					& = \sum_{F}\sum_{\tilde{G}} p_1(F|G)  p_1(A = \text{true} | F, \tilde{G}) p(\tilde{G}) \\
+					& = \sum_{\tilde{G}} p(\tilde{G}) \sum_{F} p_1(F|G)  p_1(A = \text{true} | F, \tilde{G}) \\
+					& = p(\tilde{G} = \text{male})\sum_{F} p_1(F|G)  p_1(A = \text{true} | F, \tilde{G} = \text{male}) \\
+					& + p(\tilde{G} = \text{female})\sum_{F} p_1(F|G)  p_1(A = \text{true} | F, \tilde{G} = \text{female})\\
+	\end{align*}
+
+	\item Now we can calculate
+		\begin{align*}
+		p_2(A = \text{true} | G = \text{male}) & =  0.585 \cdot p_1(A = \text{true} | do(G = \text{male})) + 0.415 \cdot (0.82 \cdot 0.32 + ... )\\
+							&  = 0.585 \cdot 0.46 + 0.415 \cdot 0.54 = 0.49 \\
+		p_2(A = \text{true} | G = \text{female}) & =  0.415 \cdot p_1(A = \text{true} | do(G = \text{female})) + 0.585 \cdot (0.06 \cdot 0.62 + ... )\\
+							&  = 0.415 \cdot 0.30 + 0.585 \cdot 0.30 = 0.30 \\
+		\end{align*}
+	The results yield the same conditional probability for women in both models indicating that there is no discrimination in that respect. But for men the direct causal effect yields a higher conditional probability thus indicating that there might be little discrimination against male applicants.
+\end{enumerate}
+\end{document}
+
+
